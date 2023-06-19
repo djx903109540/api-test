@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API-Test</title>
+    <style type="text/css">
+        .b{
+            background-color: red;
+        }
+        .b:hover{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="create">
+        <input type="text" placeholder="title" id="input1">
+        <input type="text" placeholder="author" id="input2">
+        <button type="button" class="b">create</button> 
+    </div>
+    <div id="delete">
+        <input type="text" placeholder="id">
+        <button type="button" class="b">delete</button>
+    </div>
+    <div id="update">
+        <input type="text" placeholder="id" id="input1">
+        <input type="text" placeholder="title" id="input2">
+        <input type="text" placeholder="author" id="input3">
+        <button type="button" class="b">update</button>
+    </div>
+    <ul id="comments"></ul>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js' integrity='sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==' crossorigin='anonymous'></script>
+    <script>
+        $(function(){
+            $.ajax({
+                url:"http://localhost:3000/posts",
+                method:"get",
+                dataType:"json",
+                data:{}
+            }).done(function(res){
+                console.log(res)
+                res.forEach(function(e) {
+                    $("#comments").append("<li>" + e.id +" " + e.title + " --------" + e.author + "</li>")
+                })
+            }).fail(function(err){
+                console.log(err)
+            })
+
+            $("#create > button").click(function(){
+                let title = $("#create > input[id=input1]").val().trim();
+                let author = $("#create > input[id=input2]").val().trim();
+                if(!title || !author){
+                    return false;
+                }
+                $.ajax({
+                    url:"http://localhost:3000/posts",
+                    method:"post",
+                    dataType:"json",
+                    data:{
+                        title: title,
+                        author: author
+                    }
+                })
+            })
+
+            $("#delete > button").click(function(){
+                let id = $("#delete > input").val().trim();
+                if(!id){
+                    return false;
+                }
+                $.ajax({
+                    url:"http://localhost:3000/posts/" + id,
+                    method:"delete",
+                    dataType:"json",
+                }).done(function(res){
+                    console.log(res)
+                }).fail(function(err){
+                    console.log(err)
+                })
+            })
+
+            $("#update > button").click(function(){
+                let id = $("#update > input[id=input1]").val().trim();
+                let title = $("#update > input[id=input2]").val().trim();
+                let author = $("#update > input[id=input3]").val().trim();
+                if(!id || !title || !author){
+                    console.log("缺少输入");
+                    return false;
+                }
+                $.ajax({
+                    url:"http://localhost:3000/posts/" + id,
+                    method:"put",
+                    dataType:"json",
+                    data:{
+                        title: title,
+                        author: author
+                    }
+                }).done(function(res){
+                    console.log(res)
+                }).fail(function(err){
+                    console.log(err)
+                })
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "title": "League of Legends",
+      "author": "Thomas",
+      "id": 2
+    },
+    {
+      "title": "An Old Man and the Sea",
+      "author": "John",
+      "id": 4
+    },
+    {
+      "title": "Two Pigs",
+      "author": "Jack",
+      "id": 5
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": [
+    {
+      "name": "typicode"
+    }
+  ]
+}
